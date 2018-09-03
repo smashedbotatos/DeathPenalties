@@ -4,10 +4,10 @@ Prefix: '&6&lDeathPenalties &b&l|'
 #Reward Config
 reward_enabled: true
 
-#PvE Penalty Config
+##PvE Penalty Config
 penalty_enabled: true
-#Should the penalty be taken as a percentage of over account balance
-#If true, use percentages in Mob Config section written in decimal format. i.e. .1 .15 .2 .25
+##Should the penalty be taken as a percentage of over account balance
+##If true, use percentages in Mob Config section written in decimal format. i.e. .1 .15 .2 .25
 penalty_is_percent: true
 
 
