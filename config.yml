@@ -1,0 +1,137 @@
+#Config for DeathPenalties
+Prefix: '&6&lDeathPenalties &b&l|'
+
+#Reward Config
+reward_enabled: true
+
+#PvE Penalty Config
+penalty_enabled: true
+#Should the penalty be taken as a percentage of over account balance
+#If true, use percentages in Mob Config section written in decimal format. i.e. .1 .15 .2 .25
+penalty_is_percent: true
+
+
+#PvP Config
+pvp_penalty_enabled: true
+#Should the penalty be taken as a percentage of over account balance?
+#If true, use percentages in PvP config player section written in decimal format. i.e. .1 .15 .2 .25
+pvp_penalty_is_percent: true
+#Give the killed players penalty to the killer?
+pvp_penalty_to_killer: true
+
+player:
+  penalty: .1
+
+# Mob Config
+#Rewards for killing
+#Penalties for being killed
+bat:
+  penalty: .1
+blaze:
+  penalty: .1
+cave_spider:
+  penalty: .1
+chicken:
+  penalty: .1
+cod:
+  penalty: .1
+cow:
+  penalty: .1
+creeper:
+  penalty: .1
+dolphin:
+  penalty: .1
+drowned:
+  penalty: .1
+elder_guardian:
+  penalty: .15
+ender_dragon:
+  penalty: .2
+enderman:
+  penalty: .1
+endermite:
+  penalty: .1
+evoker:
+  penalty: .1
+ghast:
+  penalty: .1
+guardian:
+  penalty: .1
+giant:
+  penalty: .15
+horse:
+  penalty: .1
+husk:
+  penalty: .1
+illusioner:
+  penalty: .1
+iron_golem:
+  penalty: .1
+llama:
+  penalty: .1
+magma_cube:
+  penalty: .1
+mooshroom:
+  penalty: .1
+mule:
+  penalty: .1
+ocelot:
+  penalty: .1
+parrot:
+  penalty: .1
+phantom:
+  penalty: .1
+pig:
+  penalty: .1
+polar_bear:
+  penalty: .1
+pufferfish:
+  penalty: .1
+rabbit:
+  penalty: .1
+salmon:
+  penalty: .1
+sheep:
+  penalty: .1
+shulker:
+  penalty: .1
+silverfish:
+  penalty: .1
+skeleton:
+  penalty: .1
+skeleton_horse:
+  penalty: .1
+slime:
+  penalty: .1
+snow_golem:
+  penalty: .1
+spider:
+  penalty: .1
+stray:
+  penalty: .1
+squid:
+  penalty: .1
+tropical_fish:
+  penalty: .1
+turtle:
+  penalty: .1
+vex:
+  penalty: .1
+villager:
+  penalty: .1
+vindicator:
+  penalty: .1
+witch:
+  penalty: .1
+wither:
+  penalty: .2
+wither_skeleton:
+  penalty: .1
+wolf:
+  penalty: .1
+zombie:
+  penalty: .1
+zombie_pigman:
+  penalty: .15
+zombie_villager:
+  penalty: .1
