@@ -1,9 +1,11 @@
 name: DeathPenalty
 version: ${project.version}
 main: net.icarey.deathpenalty.DeathPenalty
-prefix: §CDeathPenalty
 depend: [Vault]
-softdepend: [Vault]
 authors: [Smashedbotatos]
 description: In-game currency penalties for dying in minecraft.
-website: https://mc.icarey.net
+api-version: 1.13
+commands:
+  deathpenalty:
+    description: Main Command for DeathPenalties!
+    aliases: [dp]

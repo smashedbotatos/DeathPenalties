@@ -1,32 +1,57 @@
 package net.icarey.deathpenalty;
 
-
+import net.icarey.deathpenalty.commands.DeathPenaltyCmd;
+import net.icarey.deathpenalty.commands.DeathPenaltyTabComp;
+import net.icarey.deathpenalty.listeners.PlayerDeathByMob;
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.projectiles.ProjectileSource;
-import org.jetbrains.annotations.NotNull;
+import org.bukkit.configuration.InvalidConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
-public final class DeathPenalty extends JavaPlugin implements Listener{
+public final class DeathPenalty extends JavaPlugin {
+    public final Logger logger = Logger.getLogger("Minecraft");
+    public static DeathPenalty plugin;
+    public String Prefix;
+    public File deathfile = new File(this.getDataFolder() + "/data/deaths.yml");
+    public FileConfiguration deaths;
+    public static ArrayList<Player> debug;
+    public static Economy econ = null;
 
-    private static Economy econ = null;
-    public static EconomyResponse r;
+    public DeathPenalty(){
+        this.deaths = YamlConfiguration.loadConfiguration(this.deathfile);
+    }
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
-        getLogger().info("Enabling MobHunter");
-        if (!setupEconomy() ) {
-            getServer().getPluginManager().disablePlugin(this);
-            return;
+        plugin = this;
+        if (this.setupPlug()) {
+            this.logger.info(String.format("[%s]DeathPenalty for has enabled and running fine! V: %s", this.getDescription().getName(), this.getDescription().getVersion()));
+            this.loadMethod();
+            debug = new ArrayList();
+            if (!this.setupEconomy()) {
+                this.logger.severe(String.format("[%s] - Disabled due to no Vault or Economy plugin!", this.getDescription().getName()));
+                Bukkit.getPluginManager().disablePlugin(this);
+                return;
+            }
+
+            this.loadFile();
+            this.registerConfig();
+        } else {
+            this.getLogger().severe("Failed to load DeathPenalty!");
+            this.getLogger().severe("Your server version is not compatible with this plugin!");
+            this.getLogger().severe("Usable Versions: 1.13.1");;
+            Bukkit.getPluginManager().disablePlugin(this);
         }
-        this.getServer().getPluginManager().registerEvents(this, this);
+
     }
 
     private boolean setupEconomy() {
@@ -41,290 +66,64 @@ public final class DeathPenalty extends JavaPlugin implements Listener{
         return econ != null;
     }
 
-    @EventHandler
-    public void onEntityDamage(@NotNull EntityDamageByEntityEvent e){
-
-        if(e.getDamager().getType() == EntityType.PLAYER){
-            Player p = (Player) e.getDamager();
-            Entity en = (Entity) e.getEntity();
-            p.sendMessage(ChatColor.RED + "Hit: " + en);
-            return;
+    public void saveFile() {
+        try {
+            this.deaths.save(this.deathfile);
+        } catch (IOException var2) {
+            var2.printStackTrace();
         }
 
-        if(e.getEntity().getType() == EntityType.PLAYER){
-            Player p = (Player) e.getEntity();
-            Damageable dmg = p;
-            Entity en = e.getDamager();
-            ProjectileSource sht = null;
+    }
 
-            if (dmg.getHealth() - e.getDamage() <= 0D) {
-                //Neutral Mob Checks
-                if (e.getDamager().getType() == EntityType.DOLPHIN) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.LLAMA) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.POLAR_BEAR) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.WOLF) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                //Hostile Mob Checks
-                else if (e.getDamager().getType() == EntityType.CAVE_SPIDER) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.ENDERMAN) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.EVOKER_FANGS) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.SPIDER) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.PIG_ZOMBIE) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.BLAZE) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.CREEPER) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.DROWNED) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.ELDER_GUARDIAN) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.ENDER_DRAGON) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.ENDERMITE) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.EVOKER) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.GHAST) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.GUARDIAN) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.HUSK) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.IRON_GOLEM) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.MAGMA_CUBE) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.PHANTOM) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.SNOWMAN) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.SILVERFISH) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.SKELETON) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.SLIME) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.STRAY) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.VEX) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.VINDICATOR) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.WITCH) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.WITHER_SKELETON) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.ZOMBIE) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-                else if (e.getDamager().getType() == EntityType.ZOMBIE_VILLAGER) {
-                    p.sendMessage(ChatColor.RED + "Killed by: " + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
-
-                else if (e.getDamager().getType() == EntityType.ARROW) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Stray) {
-                            p.sendMessage(ChatColor.RED + "ARROW came from Stray");
-                        } else if (sht instanceof Skeleton) {
-                            p.sendMessage(ChatColor.RED + "ARROW came from Skeleton");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "ARROW skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.DRAGON_FIREBALL) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof EnderDragon) {
-                            p.sendMessage(ChatColor.RED + "DRAGON_FIREBALL came from Ender Dragon");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "DRAGON_FIREBALL skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.FIREBALL) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Blaze) {
-                            p.sendMessage(ChatColor.RED + "FIREBALL came from Blaze");
-                        } else if (sht instanceof Ghast) {
-                            p.sendMessage(ChatColor.RED + "FIREBALL came from Ghast");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "FIREBALL skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.SMALL_FIREBALL) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Blaze) {
-                            p.sendMessage(ChatColor.RED + "FIREBALL came from Blaze");
-                        } else if (sht instanceof Ghast) {
-                            p.sendMessage(ChatColor.RED + "FIREBALL came from Ghast");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "FIREBALL skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.LLAMA_SPIT) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Llama) {
-                            p.sendMessage(ChatColor.RED + "LLAMA_SPIT came from Blaze");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "LLAMA_SPIT skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.SHULKER_BULLET) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Shulker) {
-                            p.sendMessage(ChatColor.RED + "SHULKER_BULLET came from SHULKER");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "SHULKER_BULLET skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.SNOWBALL) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Snowman) {
-                            p.sendMessage(ChatColor.RED + "SNOWBALL came from Snowman");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "Snowball skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.SPLASH_POTION) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Witch) {
-                            p.sendMessage(ChatColor.RED + "SPLASH_POTION came from Witch");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "SPLASH_POTION skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.TIPPED_ARROW ) {
-                    if (en instanceof  Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Stray){
-                            p.sendMessage(ChatColor.RED + "TIPPED_ARROW came from Stray");
-                        }
-                        else if (sht instanceof Skeleton){
-                            p.sendMessage(ChatColor.RED + "TIPPED_ARROW came from Skeleton");
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + "TIPPED_ARROW skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.TRIDENT ) {
-                    if (en instanceof  Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Drowned){
-                            p.sendMessage(ChatColor.RED + "TRIDENT came from Drowned");
-                        }
-                        else {
-                            p.sendMessage(ChatColor.RED + "TRIDENT skipped checks");
-                        }
-                    }
-                }
-                else if (e.getDamager().getType() == EntityType.WITHER_SKULL) {
-                    if (en instanceof Projectile) {
-                        sht = ((Projectile) en).getShooter();
-
-                        p.sendMessage(ChatColor.RED + "Killed by: " + sht);
-
-                        if (sht instanceof Wither) {
-                            p.sendMessage(ChatColor.RED + "WITHER_SKULL came from WITHER");
-                        } else {
-                            p.sendMessage(ChatColor.RED + "WITHER_SKULL skipped checks");
-                        }
-                    }
-                }
-                else {
-                    p.sendMessage(ChatColor.GREEN + "Killed by:" + e.getDamager().getType() + e.getDamager().getEntityId());
-                }
+    public void loadFile() {
+        if (this.deathfile.exists()) {
+            try {
+                this.deaths.load(this.deathfile);
+            } catch (InvalidConfigurationException | IOException var3) {
+                var3.printStackTrace();
+            }
+        } else {
+            try {
+                this.deaths.save(this.deathfile);
+            } catch (IOException var2) {
+                var2.printStackTrace();
             }
         }
 
     }
 
+    private void registerConfig() {
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
+    }
 
+    public void loadMethod() {
+
+        this.getCommand("deathpenalty").setExecutor(new DeathPenaltyCmd(this));
+        this.getCommand("deathpenalty").setTabCompleter(new DeathPenaltyTabComp());
+        this.Prefix = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("Prefix"));
+
+        }
+
+    private boolean setupPlug() {
+        String version;
+        try {
+            version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+        } catch (ArrayIndexOutOfBoundsException var3) {
+            return false;
+        }
+        this.getLogger().info("Your server is running version " + version);
+        if (version.equals("v1_13_R2")){
+            Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathByMob(this), this);
+        }
+
+        return version.equals("v1_13_R2");
+    }
     @Override
     public void onDisable() {
-        // Plugin shutdown logi
+        PluginDescriptionFile pdfFile = this.getDescription();
+        this.logger.info("MobHunt for 1.13 has been disabled correctly!");
+        this.logger.info("Saving the file: kills.yml");
+        this.saveFile();
     }
 }
