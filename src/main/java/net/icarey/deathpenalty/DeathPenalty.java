@@ -2,7 +2,8 @@ package net.icarey.deathpenalty;
 
 import net.icarey.deathpenalty.commands.DeathPenaltyCmd;
 import net.icarey.deathpenalty.commands.DeathPenaltyTabComp;
-import net.icarey.deathpenalty.listeners.PlayerDeathByMob;
+import net.icarey.deathpenalty.listeners.PlayerDeathByEntity;
+import net.icarey.deathpenalty.listeners.PlayerDeathByEnvironment;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -114,7 +115,8 @@ public final class DeathPenalty extends JavaPlugin {
         }
         this.getLogger().info("Your server is running version " + version);
         if (version.equals("v1_13_R2")){
-            Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathByMob(this), this);
+            Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathByEntity(this), this);
+            Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathByEnvironment(this), this);
         }
 
         return version.equals("v1_13_R2");
