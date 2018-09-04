@@ -122,7 +122,7 @@ public final class DeathPenalty extends JavaPlugin {
     @Override
     public void onDisable() {
         PluginDescriptionFile pdfFile = this.getDescription();
-        this.logger.info("MobHunt for 1.13 has been disabled correctly!");
+        this.logger.info("DeathPenalty for 1.13 has been disabled correctly!");
         this.logger.info("Saving the file: kills.yml");
         this.saveFile();
     }
