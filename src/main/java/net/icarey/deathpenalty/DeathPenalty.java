@@ -36,7 +36,7 @@ public final class DeathPenalty extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         if (this.setupPlug()) {
-            this.logger.info(String.format("[%s]DeathPenalty has been enabled Version: %s", this.getDescription().getName(), this.getDescription().getVersion()));
+            this.logger.info(String.format("[%s] DeathPenalty has been enabled Version: %s", this.getDescription().getName(), this.getDescription().getVersion()));
             this.loadMethod();
             if (!this.setupEconomy()) {
                 this.logger.severe(String.format("[%s] - Disabled due to no Vault or Economy plugin!", this.getDescription().getName()));

@@ -680,7 +680,7 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();
@@ -701,7 +701,7 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();
@@ -714,7 +714,7 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();
@@ -747,7 +747,7 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();
@@ -802,7 +802,7 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();
