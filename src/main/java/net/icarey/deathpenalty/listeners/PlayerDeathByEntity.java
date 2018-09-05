@@ -261,7 +261,6 @@ public class PlayerDeathByEntity implements Listener {
                 } else if (e.getDamager().getType() == EntityType.ZOMBIE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
                     if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
-
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -670,7 +669,7 @@ public class PlayerDeathByEntity implements Listener {
         int deaths;
         double totalcash;
 
-        if (this.plugin.getConfig().getBoolean("penalty_is_percent")) {
+        if (this.plugin.getConfig().getBoolean("mob_penalty_is_percent")) {
             Double per = this.plugin.getConfig().getDouble(mobtype + ".penalty");
             bal = DeathPenalty.econ.getBalance(p);
             if (per <= 1 || per > 0) {
@@ -692,11 +691,11 @@ public class PlayerDeathByEntity implements Listener {
             } else {
                 p.sendMessage(ChatColor.RED + "The percentage amount in config.yml is incorrect. Contact an Admin.");
             }
-        } else if (!this.plugin.getConfig().getBoolean("penalty_is_percent")) {
+        } else if (!this.plugin.getConfig().getBoolean("mob_penalty_is_percent")) {
             am = this.plugin.getConfig().getDouble(mobtype + ".penalty");
             bal = DeathPenalty.econ.getBalance(p);
 
-            if (!(am > bal)) {
+            if (am <= bal) {
                 er = DeathPenalty.econ.withdrawPlayer(p, am);
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
@@ -747,7 +746,7 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();

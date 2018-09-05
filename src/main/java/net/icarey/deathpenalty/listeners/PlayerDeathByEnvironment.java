@@ -5,6 +5,7 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.*;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,14 +24,17 @@ public class PlayerDeathByEnvironment implements Listener {
     public void onDeath(@NotNull PlayerDeathEvent e) {
         Player p = (Player) e.getEntity();
         PlayerDeathByEntity pen = null;
-        String cause = e.getEntity().getLastDamageCause().getCause().toString().toLowerCase();
+        String cause = e.getEntity().getLastDamageCause().getCause().toString();
+        EntityDamageEvent.DamageCause ent = e.getEntity().getLastDamageCause().getCause();
         String[] causeArray = {"CUSTOM", "DRYOUT", "ENTITY_ATTACK", "ENTITY_EXPLOSION", "ENTITY_SWEEP_ATTACK", "MAGIC", "MELTING", "POISON", "PROJECTILE"};
 
-        if (!(e.getEntity().getKiller() instanceof Player)) {
+        if (e.getEntity().getLastDamageCause().getCause() != null) {
             if (this.plugin.getConfig().getBoolean("env_penalty_enabled")) {
 
                 if (!(Arrays.asList(causeArray).contains(cause))) {
-                    this.envPenalty(cause, p);
+                    this.envPenalty(cause.toLowerCase(), p);
+                } else if (Arrays.asList(causeArray).contains(cause)) {
+                    return;
                 } else {
                     p.sendMessage(ChatColor.GREEN + "Something killed you but it wasn't on the list: " + WordUtils.capitalizeFully(cause.replaceAll("_", " ")));
                 }
@@ -75,7 +79,7 @@ public class PlayerDeathByEnvironment implements Listener {
         } else if (!(this.plugin.getConfig().getBoolean("env_penalty_is_percent"))) {
             am = this.plugin.getConfig().getDouble(c + ".penalty");
             bal = DeathPenalty.econ.getBalance(p);
-            if (!(am < bal)) {
+            if (am <= bal) {
                 er = DeathPenalty.econ.withdrawPlayer(p, am);
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
@@ -88,7 +92,7 @@ public class PlayerDeathByEnvironment implements Listener {
                 } else {
                     p.sendMessage(ChatColor.RED + "An error occured %s");
                 }
-            } else if (am < bal) {
+            } else if (am > bal) {
                 er = DeathPenalty.econ.withdrawPlayer(p, bal);
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
