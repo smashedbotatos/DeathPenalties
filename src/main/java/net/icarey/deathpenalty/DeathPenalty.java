@@ -4,8 +4,10 @@ import net.icarey.deathpenalty.commands.DeathPenaltyCmd;
 import net.icarey.deathpenalty.commands.DeathPenaltyTabComp;
 import net.icarey.deathpenalty.listeners.PlayerDeathByEntity;
 import net.icarey.deathpenalty.listeners.PlayerDeathByEnvironment;
+import net.icarey.deathpenalty.listeners.PlayerJoin;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -22,20 +24,22 @@ public final class DeathPenalty extends JavaPlugin {
     public final Logger logger = Logger.getLogger("Minecraft");
     public static DeathPenalty plugin;
     public String Prefix;
-    public File deathfile = new File(this.getDataFolder() + "/data/deaths.yml");
+    public File deathfile = new File(this.getDataFolder() + "/data/death_data.yml");
     public FileConfiguration deaths;
+    public FileConfiguration totalcash;
     public static ArrayList<Player> debug;
     public static Economy econ = null;
 
     public DeathPenalty(){
         this.deaths = YamlConfiguration.loadConfiguration(this.deathfile);
+        this.totalcash = YamlConfiguration.loadConfiguration(this.deathfile);
     }
 
     @Override
     public void onEnable() {
         plugin = this;
         if (this.setupPlug()) {
-            this.logger.info(String.format("[%s]DeathPenalty for has enabled and running fine! V: %s", this.getDescription().getName(), this.getDescription().getVersion()));
+            this.logger.info(String.format("[%s]DeathPenalty has been enabled Version: %s", this.getDescription().getName(), this.getDescription().getVersion()));
             this.loadMethod();
             debug = new ArrayList();
             if (!this.setupEconomy()) {
@@ -102,7 +106,7 @@ public final class DeathPenalty extends JavaPlugin {
 
         this.getCommand("deathpenalty").setExecutor(new DeathPenaltyCmd(this));
         this.getCommand("deathpenalty").setTabCompleter(new DeathPenaltyTabComp());
-        this.Prefix = net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("Prefix"));
+        this.Prefix = ChatColor.translateAlternateColorCodes('&', this.getConfig().getString("Prefix"));
 
         }
 
@@ -117,6 +121,7 @@ public final class DeathPenalty extends JavaPlugin {
         if (version.equals("v1_13_R2")){
             Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathByEntity(this), this);
             Bukkit.getServer().getPluginManager().registerEvents(new PlayerDeathByEnvironment(this), this);
+            Bukkit.getServer().getPluginManager().registerEvents(new PlayerJoin(this), this);
         }
 
         return version.equals("v1_13_R2");
@@ -125,7 +130,7 @@ public final class DeathPenalty extends JavaPlugin {
     public void onDisable() {
         PluginDescriptionFile pdfFile = this.getDescription();
         this.logger.info("DeathPenalty for 1.13 has been disabled correctly!");
-        this.logger.info("Saving the file: kills.yml");
+        this.logger.info("Saving the file: death_data.yml");
         this.saveFile();
     }
 }

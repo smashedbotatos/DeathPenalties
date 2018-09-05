@@ -261,6 +261,7 @@ public class PlayerDeathByEntity implements Listener {
                 } else if (e.getDamager().getType() == EntityType.ZOMBIE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
                     if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -668,16 +669,25 @@ public class PlayerDeathByEntity implements Listener {
 
     private void penaltyCollect(String mobtype, Player p) {
         EconomyResponse er = null;
-        Double pen = null;
+        Double bal = null;
+        int deaths;
+        double totalcash;
+
         if (this.plugin.getConfig().getBoolean("penalty_is_percent")) {
             Double per = this.plugin.getConfig().getDouble(mobtype + ".penalty");
             if (per <= 1 || per > 0) {
-                pen = DeathPenalty.econ.getBalance(p);
-                this.am = pen * per;
+                bal = DeathPenalty.econ.getBalance(p);
+                this.am = bal * per;
                 double roundedam = Math.round(am * 100 / 100);
                 er = DeathPenalty.econ.withdrawPlayer(p, roundedam);
                 if (er.transactionSuccess()) {
-                    p.sendMessage(ChatColor.RED + "Dieing to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + roundedam);
+                    deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
+                    ++deaths;
+                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.saveFile();
+                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am + ChatColor.RED + "!");
                 } else {
                     p.sendMessage(ChatColor.RED + "An error occured %s");
                 }
@@ -687,13 +697,34 @@ public class PlayerDeathByEntity implements Listener {
             }
         } else if (!this.plugin.getConfig().getBoolean("penalty_is_percent")) {
             am = this.plugin.getConfig().getDouble(mobtype + ".penalty");
-            er = DeathPenalty.econ.withdrawPlayer(p, am);
-            if (er.transactionSuccess()) {
-                p.sendMessage(ChatColor.RED + "Dieing to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + am);
-            } else {
-                p.sendMessage(ChatColor.RED + "An error occured %s");
+            if (!(am > bal)) {
+                er = DeathPenalty.econ.withdrawPlayer(p, am);
+                if (er.transactionSuccess()) {
+                    deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
+                    ++deaths;
+                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.saveFile();
+                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am + ChatColor.RED + "!");
+                } else {
+                    p.sendMessage(ChatColor.RED + "An error occured %s");
+                }
+            } else if (am > bal) {
+                er = DeathPenalty.econ.withdrawPlayer(p, bal);
+                if (er.transactionSuccess()) {
+                    deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
+                    ++deaths;
+                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.saveFile();
+                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + bal + ChatColor.RED + "!");
+                    p.sendMessage(ChatColor.DARK_RED + "Your balance is now " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + "0" + ChatColor.DARK_RED + ".");
+                } else {
+                    p.sendMessage(ChatColor.RED + "An error occured %s");
+                }
             }
-
         } else {
             p.sendMessage(ChatColor.DARK_RED + "Something went wrong.");
         }
@@ -703,23 +734,33 @@ public class PlayerDeathByEntity implements Listener {
     private void pvpPenalty(Player k, Player p) {
         EconomyResponse er = null;
         Double pen = null;
+        int deaths;
+        double totalcash;
+        double bal;
 
         if (this.plugin.getConfig().getBoolean("pvp_penalty_is_percent")) {
+
             Double per = this.plugin.getConfig().getDouble("player.penalty");
             if (per <= 1 || per > 0) {
-                pen = DeathPenalty.econ.getBalance(p);
-                this.am = pen * per;
+                bal = DeathPenalty.econ.getBalance(p);
+                this.am = bal * per;
                 double roundedam = Math.round(am * 100 / 100);
                 er = DeathPenalty.econ.withdrawPlayer(p, roundedam);
                 if (er.transactionSuccess()) {
-                    p.sendMessage(ChatColor.RED + k.getName() + " robbed you for " + roundedam);
+                    deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
+                    ++deaths;
+                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.saveFile();
+                    p.sendMessage(ChatColor.RED + k.getName() + " robbed you for " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + roundedam);
                 } else {
                     p.sendMessage(ChatColor.RED + "An error occured %s");
                 }
                 if (this.plugin.getConfig().getBoolean("pvp_penalty_to_killer")) {
                     er = DeathPenalty.econ.depositPlayer(k, roundedam);
                     if (er.transactionSuccess()) {
-                        k.sendMessage(ChatColor.RED + "You have taken " + roundedam + " from " + p.getName());
+                        k.sendMessage(ChatColor.RED + "You have taken " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + roundedam + ChatColor.RED + " from " + ChatColor.GREEN + p.getName() + ChatColor.RED + "'s corpse.");
                     } else {
                         p.sendMessage(ChatColor.RED + "An error occured %s");
                     }
@@ -729,28 +770,61 @@ public class PlayerDeathByEntity implements Listener {
             } else {
                 p.sendMessage(ChatColor.RED + "The percentage amount in config.yml is incorrect. Contact an Admin.");
             }
-            am = this.plugin.getConfig().getDouble("player.penalty");
-            er = DeathPenalty.econ.withdrawPlayer(p, am);
-
 
         } else if (!this.plugin.getConfig().getBoolean("pvp_penalty_is_percent")) {
+            bal = DeathPenalty.econ.getBalance(p);
             am = this.plugin.getConfig().getDouble("player.penalty");
-            er = DeathPenalty.econ.withdrawPlayer(p, am);
-            if (er.transactionSuccess()) {
-                p.sendMessage(ChatColor.RED + k.getName() + " robbed you for " + am);
-            } else {
-                p.sendMessage(ChatColor.RED + "An error occured %s");
-            }
-            if (this.plugin.getConfig().getBoolean("pvp_penalty_to_killer")) {
-                er = DeathPenalty.econ.depositPlayer(k, am);
+            if (!(am > bal)) {
+                er = DeathPenalty.econ.withdrawPlayer(p, am);
                 if (er.transactionSuccess()) {
-                    k.sendMessage(ChatColor.RED + "You have taken " + am + " from " + p.getName() + "'s corpse.");
+                    deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
+                    ++deaths;
+                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.saveFile();
+                    p.sendMessage(ChatColor.RED + k.getName() + " robbed you for " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am);
+
                 } else {
                     p.sendMessage(ChatColor.RED + "An error occured %s");
                 }
-            } else {
-                k.sendMessage(ChatColor.GREEN + "Sorry, no pvp reward was enabled.");
+                if (this.plugin.getConfig().getBoolean("pvp_penalty_to_killer")) {
+                    er = DeathPenalty.econ.depositPlayer(k, am);
+                    if (er.transactionSuccess()) {
+                        k.sendMessage(ChatColor.RED + "You have taken " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am + ChatColor.RED + " from " + ChatColor.GREEN + p.getName() + ChatColor.RED + "'s corpse.");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "An error occured %s");
+                    }
+                } else {
+                    k.sendMessage(ChatColor.GREEN + "Sorry, no pvp reward was enabled.");
 
+                }
+            } else if (am > bal) {
+                er = DeathPenalty.econ.withdrawPlayer(p, bal);
+                if (er.transactionSuccess()) {
+                    deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
+                    ++deaths;
+                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.saveFile();
+                    p.sendMessage(ChatColor.RED + k.getName() + " robbed you for" + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + bal + ChatColor.RED + ".");
+                    p.sendMessage(ChatColor.DARK_RED + "Your balance is now" + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + "0" + ChatColor.DARK_RED + ".");
+
+                } else {
+                    p.sendMessage(ChatColor.RED + "An error occured %s");
+                }
+                if (this.plugin.getConfig().getBoolean("pvp_penalty_to_killer")) {
+                    er = DeathPenalty.econ.depositPlayer(k, bal);
+                    if (er.transactionSuccess()) {
+                        k.sendMessage(ChatColor.GREEN + p.getName() + ChatColor.RED + "didn't have enough to pay the penalty, so you took " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + bal + ChatColor.RED + " and made their account " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + "0" + ChatColor.RED + "!");
+                    } else {
+                        p.sendMessage(ChatColor.RED + "An error occured %s");
+                    }
+                } else {
+                    k.sendMessage(ChatColor.GREEN + "Sorry, no pvp reward was enabled.");
+
+                }
             }
         } else {
             p.sendMessage(ChatColor.DARK_RED + "Something went wrong.");

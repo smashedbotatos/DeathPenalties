@@ -1,15 +1,54 @@
 #Config for DeathPenalties
 Prefix: '&6&lDeathPenalties &b&l|'
 
+curency:
+  label: $
+
 #Reward Config
 reward_enabled: true
 
-##PvE Penalty Config
-penalty_enabled: true
-##Should the penalty be taken as a percentage of over account balance
-##If true, use percentages in Mob Config section written in decimal format. i.e. .1 .15 .2 .25
-penalty_is_percent: true
+##Environmental Configuration
+#Environmental Penalties enabled?
+env_penalty_enabled: true
+#Env Penalties are percent?
+env_penalty_is_percent: true
 
+#Env Types Cconfiguration
+#If percent use the decimal format i.e. .10 for 10, .20 or 20, 1.0 for 100
+block_explosion:
+  penalty: .1
+contact:
+  penalty: .1
+cramming:
+  penalty: .1
+drowning:
+  penalty: .1
+fall:
+  penalty: .1
+falling_block:
+  penalty: .1
+fire:
+  penalty: .1
+fire_tick:
+  penalty: .1
+fly_into_wall:
+  penalty: .1
+hot_floor:
+  penalty: .1
+lava:
+  penalty: .1
+lightning:
+  penalty: .1
+primed_tnt:
+  penalty: .1
+starvation:
+  penalty: .1
+suffocation:
+  penalty: .1
+suicide:
+  penalty: .1
+void:
+  penalty: .1
 
 #PvP Config
 pvp_penalty_enabled: true
@@ -19,12 +58,21 @@ pvp_penalty_is_percent: true
 #Give the killed players penalty to the killer?
 pvp_penalty_to_killer: true
 
+#PvP type config
+#If percent use the decimal format i.e. .10 for 10, .20 or 20, 1.0 for 100
 player:
   penalty: .1
+
+##Mob Penalty Config
+mob_penalty_enabled: true
+##Should the penalty be taken as a percentage of over account balance
+##If true, use percentages in Mob Config section written in decimal format. i.e. .1 .15 .2 .25
+mob_penalty_is_percent: true
 
 # Mob Config
 #Rewards for killing
 #Penalties for being killed
+#If percent use the decimal format i.e. .10 for 10, .20 or 20, 1.0 for 100
 bat:
   penalty: .1
 blaze:
@@ -46,7 +94,7 @@ drowned:
 elder_guardian:
   penalty: .15
 ender_dragon:
-  penalty: .2
+  penalty: .15
 enderman:
   penalty: .1
 endermite:
@@ -124,7 +172,7 @@ vindicator:
 witch:
   penalty: .1
 wither:
-  penalty: .2
+  penalty: .15
 wither_skeleton:
   penalty: .1
 wolf:
@@ -132,6 +180,6 @@ wolf:
 zombie:
   penalty: .1
 zombie_pigman:
-  penalty: .15
+  penalty: .1
 zombie_villager:
   penalty: .1
