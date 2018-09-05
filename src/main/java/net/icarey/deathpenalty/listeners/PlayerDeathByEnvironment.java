@@ -52,6 +52,7 @@ public class PlayerDeathByEnvironment implements Listener {
         EconomyResponse er = null;
         Double bal = null;
         int deaths;
+        double current;
         double totalcash;
 
         if (this.plugin.getConfig().getBoolean("env_penalty_is_percent")) {
@@ -64,9 +65,9 @@ public class PlayerDeathByEnvironment implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + roundedam);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(c.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + roundedam + ChatColor.RED + "!");
                 } else {
@@ -84,9 +85,9 @@ public class PlayerDeathByEnvironment implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + am);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(c.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am + ChatColor.RED + "!");
                 } else {
@@ -97,9 +98,10 @@ public class PlayerDeathByEnvironment implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
+
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + bal);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(c.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + bal + ChatColor.RED + "!");
                     p.sendMessage(ChatColor.DARK_RED + "Your balance is now " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + "0" + ChatColor.DARK_RED + ".");

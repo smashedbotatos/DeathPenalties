@@ -668,6 +668,7 @@ public class PlayerDeathByEntity implements Listener {
         Double bal;
         int deaths;
         double totalcash;
+        double current;
 
         if (this.plugin.getConfig().getBoolean("mob_penalty_is_percent")) {
             Double per = this.plugin.getConfig().getDouble(mobtype + ".penalty");
@@ -679,11 +680,11 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + roundedam);
                     this.plugin.saveFile();
-                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am + ChatColor.RED + "!");
+                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + roundedam + ChatColor.RED + "! " + current);
                 } else {
                     p.sendMessage(ChatColor.RED + "An error occured %s");
                 }
@@ -695,14 +696,14 @@ public class PlayerDeathByEntity implements Listener {
             am = this.plugin.getConfig().getDouble(mobtype + ".penalty");
             bal = DeathPenalty.econ.getBalance(p);
 
-            if (am <= bal) {
+            if (am < bal) {
                 er = DeathPenalty.econ.withdrawPlayer(p, am);
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + am);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am + ChatColor.RED + "!");
                 } else {
@@ -713,9 +714,9 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + bal);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(mobtype.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + bal + ChatColor.RED + "!");
                     p.sendMessage(ChatColor.DARK_RED + "Your balance is now " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + "0" + ChatColor.DARK_RED + ".");
@@ -733,6 +734,7 @@ public class PlayerDeathByEntity implements Listener {
         EconomyResponse er;
         int deaths;
         double totalcash;
+        double current;
         double bal;
 
         if (this.plugin.getConfig().getBoolean("pvp_penalty_is_percent")) {
@@ -746,9 +748,10 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = roundedam + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
+
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + roundedam);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + k.getName() + " robbed you for " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + roundedam);
                 } else {
@@ -776,9 +779,9 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = am + this.plugin.totalcash.getDouble(p.getUniqueId() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + am);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + k.getName() + " robbed you for " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + am);
 
@@ -801,9 +804,9 @@ public class PlayerDeathByEntity implements Listener {
                 if (er.transactionSuccess()) {
                     deaths = this.plugin.deaths.getInt(p.getUniqueId().toString() + "deaths");
                     ++deaths;
-                    totalcash = bal + this.plugin.totalcash.getDouble(p.getUniqueId().toString() + "penalties");
+                    current = this.plugin.deaths.getDouble(p.getUniqueId().toString() + "penalties");
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
-                    this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
+                    this.plugin.deaths.set(p.getUniqueId() + "penalties", current + bal);
                     this.plugin.saveFile();
                     p.sendMessage(ChatColor.RED + k.getName() + " robbed you for" + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + bal + ChatColor.RED + ".");
                     p.sendMessage(ChatColor.DARK_RED + "Your balance is now" + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + "0" + ChatColor.DARK_RED + ".");
