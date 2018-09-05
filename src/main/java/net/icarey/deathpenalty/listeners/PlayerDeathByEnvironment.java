@@ -9,12 +9,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 
 public class PlayerDeathByEnvironment implements Listener {
     private double am;
-    private DeathPenalty plugin;
+    public DeathPenalty plugin;
 
     public PlayerDeathByEnvironment(DeathPenalty plugin) {
         this.plugin = plugin;
@@ -28,7 +27,6 @@ public class PlayerDeathByEnvironment implements Listener {
         String[] causeArray = {"CUSTOM", "DRYOUT", "ENTITY_ATTACK", "ENTITY_EXPLOSION", "ENTITY_SWEEP_ATTACK", "MAGIC", "MELTING", "POISON", "PROJECTILE"};
 
         if (!(e.getEntity().getKiller() instanceof Player)) {
-            p.sendMessage(ChatColor.GREEN + cause);
             if (this.plugin.getConfig().getBoolean("env_penalty_enabled")) {
 
                 if (!(Arrays.asList(causeArray).contains(cause))) {
@@ -36,11 +34,13 @@ public class PlayerDeathByEnvironment implements Listener {
                 } else {
                     p.sendMessage(ChatColor.GREEN + "Something killed you but it wasn't on the list: " + WordUtils.capitalizeFully(cause.replaceAll("_", " ")));
                 }
-            } else if (!(this.plugin.getConfig().getBoolean("env_penalty"))) {
+            } else if (!(this.plugin.getConfig().getBoolean("env_penalty_enabled"))) {
                 p.sendMessage(ChatColor.GREEN + "You got lucky, environmental penalties disabled.");
             } else {
                 p.sendMessage(ChatColor.DARK_RED + "Something went wrong, contact and Admin.");
             }
+        } else {
+            p.sendMessage(ChatColor.GREEN + cause);
         }
     }
 
@@ -64,7 +64,7 @@ public class PlayerDeathByEnvironment implements Listener {
                     this.plugin.deaths.set(p.getUniqueId() + "deaths", deaths);
                     this.plugin.deaths.set(p.getUniqueId() + "penalties", totalcash);
                     this.plugin.saveFile();
-                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(c.replaceAll("_", " ")) + " cost you " + roundedam);
+                    p.sendMessage(ChatColor.RED + "Dying to " + WordUtils.capitalizeFully(c.replaceAll("_", " ")) + " cost you " + ChatColor.GREEN + this.plugin.getConfig().get("currency.label") + roundedam + ChatColor.RED + "!");
                 } else {
                     p.sendMessage(ChatColor.RED + "An error occured %s");
                 }

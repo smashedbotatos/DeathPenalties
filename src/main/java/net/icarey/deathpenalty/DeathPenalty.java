@@ -10,24 +10,21 @@ import org.bukkit.Bukkit;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.*;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public final class DeathPenalty extends JavaPlugin {
     public final Logger logger = Logger.getLogger("Minecraft");
     public static DeathPenalty plugin;
     public String Prefix;
-    public File deathfile = new File(this.getDataFolder() + "/data/death_data.yml");
+    private File deathfile = new File(this.getDataFolder() + "/data/death_data.yml");
     public FileConfiguration deaths;
     public FileConfiguration totalcash;
-    public static ArrayList<Player> debug;
     public static Economy econ = null;
 
     public DeathPenalty(){
@@ -41,7 +38,6 @@ public final class DeathPenalty extends JavaPlugin {
         if (this.setupPlug()) {
             this.logger.info(String.format("[%s]DeathPenalty has been enabled Version: %s", this.getDescription().getName(), this.getDescription().getVersion()));
             this.loadMethod();
-            debug = new ArrayList();
             if (!this.setupEconomy()) {
                 this.logger.severe(String.format("[%s] - Disabled due to no Vault or Economy plugin!", this.getDescription().getName()));
                 Bukkit.getPluginManager().disablePlugin(this);
@@ -53,7 +49,7 @@ public final class DeathPenalty extends JavaPlugin {
         } else {
             this.getLogger().severe("Failed to load DeathPenalty!");
             this.getLogger().severe("Your server version is not compatible with this plugin!");
-            this.getLogger().severe("Usable Versions: 1.13.1");;
+            this.getLogger().severe("Usable Versions: 1.13.1");
             Bukkit.getPluginManager().disablePlugin(this);
         }
 
@@ -80,7 +76,7 @@ public final class DeathPenalty extends JavaPlugin {
 
     }
 
-    public void loadFile() {
+    private void loadFile() {
         if (this.deathfile.exists()) {
             try {
                 this.deaths.load(this.deathfile);
@@ -102,7 +98,7 @@ public final class DeathPenalty extends JavaPlugin {
         this.saveConfig();
     }
 
-    public void loadMethod() {
+    private void loadMethod() {
 
         this.getCommand("deathpenalty").setExecutor(new DeathPenaltyCmd(this));
         this.getCommand("deathpenalty").setTabCompleter(new DeathPenaltyTabComp());
@@ -128,7 +124,6 @@ public final class DeathPenalty extends JavaPlugin {
     }
     @Override
     public void onDisable() {
-        PluginDescriptionFile pdfFile = this.getDescription();
         this.logger.info("DeathPenalty for 1.13 has been disabled correctly!");
         this.logger.info("Saving the file: death_data.yml");
         this.saveFile();

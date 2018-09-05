@@ -36,48 +36,48 @@ public class PlayerDeathByEntity implements Listener {
         } else if (e.getEntity().getType() == EntityType.PLAYER) {
             Player p = (Player) e.getEntity();
             Entity en = e.getDamager();
-            ProjectileSource sht = null;
+            ProjectileSource sht;
 
             if (p.getHealth() - e.getDamage() <= 0D) {
 
                 if (e.getDamager().getType() == EntityType.BLAZE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                     }
                 } else if (e.getDamager().getType() == EntityType.CAVE_SPIDER) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                     }
                 } else if (e.getDamager().getType() == EntityType.CREEPER) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                     }
                 } else if (e.getDamager().getType() == EntityType.DOLPHIN) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                     }
                 } else if (e.getDamager().getType() == EntityType.DROWNED) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                     }
                 } else if (e.getDamager().getType() == EntityType.ELDER_GUARDIAN) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -85,7 +85,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.ENDER_DRAGON) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -93,7 +93,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.ENDERMAN) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -101,7 +101,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.ENDERMITE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -109,7 +109,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.EVOKER) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -117,7 +117,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.EVOKER_FANGS) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -125,7 +125,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.GHAST) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -133,7 +133,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.GUARDIAN) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -141,7 +141,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.HUSK) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -149,7 +149,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.IRON_GOLEM) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -157,7 +157,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.MAGMA_CUBE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -165,7 +165,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.PHANTOM) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -173,14 +173,14 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.PRIMED_TNT) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                     }
                 } else if (e.getDamager().getType() == EntityType.SNOWMAN) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -188,7 +188,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.SILVERFISH) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -196,7 +196,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.SKELETON) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -204,7 +204,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.SLIME) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -212,7 +212,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.SPIDER) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -220,7 +220,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.STRAY) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -228,7 +228,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.VEX) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -236,7 +236,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.VINDICATOR) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -244,7 +244,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.WITCH) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -252,7 +252,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.WITHER_SKELETON) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -260,7 +260,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.ZOMBIE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
 
                         this.penaltyCollect(mobtype, p);
                     } else {
@@ -269,7 +269,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.PIG_ZOMBIE) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -277,7 +277,7 @@ public class PlayerDeathByEntity implements Listener {
 
                 } else if (e.getDamager().getType() == EntityType.ZOMBIE_VILLAGER) {
                     String mobtype = e.getDamager().getType().toString().toLowerCase();
-                    if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                    if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                         this.penaltyCollect(mobtype, p);
                     } else {
                         p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -289,14 +289,14 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Stray) {
                             String mobtype = "stray";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                             }
                         } else if (sht instanceof Skeleton) {
                             String mobtype = "skeleton";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -318,7 +318,7 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof EnderDragon) {
                             String mobtype = "ender_dragon";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -370,14 +370,14 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Blaze) {
                             String mobtype = "blaze";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                             }
                         } else if (sht instanceof Ghast) {
                             String mobtype = "ghast";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -399,14 +399,14 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Blaze) {
                             String mobtype = "blaze";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                             }
                         } else if (sht instanceof Ghast) {
                             String mobtype = "ghast";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -458,7 +458,7 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Llama) {
                             String mobtype = "llama";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -480,7 +480,7 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Shulker) {
                             String mobtype = "shulker";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -502,7 +502,7 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Snowman) {
                             String mobtype = "snow_golem";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -524,14 +524,14 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Stray) {
                             String mobtype = "stray";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                             }
                         } else if (sht instanceof Skeleton) {
                             String mobtype = "skeleton";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -544,7 +544,7 @@ public class PlayerDeathByEntity implements Listener {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, pvp penalties disabled.");
                             }
                         } else {
-                            p.sendMessage(ChatColor.DARK_RED + "DeathPenalty has encuntered and error.");
+                            p.sendMessage(ChatColor.DARK_RED + "DeathPenalty has encountered an error.");
                         }
                     }
                 } else if (e.getDamager().getType() == EntityType.SPLASH_POTION) {
@@ -553,7 +553,7 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Witch) {
                             String mobtype = "witch";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -590,14 +590,14 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Stray){
                             String mobtype = "stray";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                             }
                         } else if (sht instanceof Skeleton){
                             String mobtype = "skeleton";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -619,7 +619,7 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Drowned){
                             String mobtype = "drowned";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
@@ -641,8 +641,15 @@ public class PlayerDeathByEntity implements Listener {
 
                         if (sht instanceof Wither) {
                             String mobtype = "wither";
-                            if (this.plugin.getConfig().getBoolean("penalty_enabled")) {
+                            if (this.plugin.getConfig().getBoolean("mob_penalty_enabled")) {
                                 this.penaltyCollect(mobtype, p);
+                            } else if (sht instanceof Player) {
+                                Player k = ((Player) sht).getPlayer();
+                                if (this.plugin.getConfig().getBoolean("pvp_penalty_enabled")) {
+                                    this.pvpPenalty(k, p);
+                                } else {
+                                    p.sendMessage(ChatColor.GREEN + "You got lucky, pvp penalties disabled.");
+                                }
                             } else {
                                 p.sendMessage(ChatColor.GREEN + "You got lucky, mob penalties disabled.");
                             }
@@ -650,33 +657,23 @@ public class PlayerDeathByEntity implements Listener {
                             p.sendMessage(ChatColor.RED + "WITHER_SKULL skipped checks");
                         }
                     }
-                } else if (sht instanceof Player) {
-                    Player k = ((Player) sht).getPlayer();
-                    if (this.plugin.getConfig().getBoolean("pvp_penalty_enabled")) {
-                        this.pvpPenalty(k, p);
-                    } else {
-                        p.sendMessage(ChatColor.GREEN + "You got lucky, pvp penalties disabled.");
-                    }
                 } else {
                     p.sendMessage(ChatColor.GREEN + "Killed by: " + e.getDamager().getType() + " Contact Author to add more mobs!");
                 }
             }
-        } else {
-            return;
         }
-
     }
 
     private void penaltyCollect(String mobtype, Player p) {
-        EconomyResponse er = null;
-        Double bal = null;
+        EconomyResponse er;
+        Double bal;
         int deaths;
         double totalcash;
 
         if (this.plugin.getConfig().getBoolean("penalty_is_percent")) {
             Double per = this.plugin.getConfig().getDouble(mobtype + ".penalty");
+            bal = DeathPenalty.econ.getBalance(p);
             if (per <= 1 || per > 0) {
-                bal = DeathPenalty.econ.getBalance(p);
                 this.am = bal * per;
                 double roundedam = Math.round(am * 100 / 100);
                 er = DeathPenalty.econ.withdrawPlayer(p, roundedam);
@@ -697,6 +694,8 @@ public class PlayerDeathByEntity implements Listener {
             }
         } else if (!this.plugin.getConfig().getBoolean("penalty_is_percent")) {
             am = this.plugin.getConfig().getDouble(mobtype + ".penalty");
+            bal = DeathPenalty.econ.getBalance(p);
+
             if (!(am > bal)) {
                 er = DeathPenalty.econ.withdrawPlayer(p, am);
                 if (er.transactionSuccess()) {
@@ -732,15 +731,14 @@ public class PlayerDeathByEntity implements Listener {
     }
 
     private void pvpPenalty(Player k, Player p) {
-        EconomyResponse er = null;
-        Double pen = null;
+        EconomyResponse er;
         int deaths;
         double totalcash;
         double bal;
 
         if (this.plugin.getConfig().getBoolean("pvp_penalty_is_percent")) {
 
-            Double per = this.plugin.getConfig().getDouble("player.penalty");
+            double per = this.plugin.getConfig().getDouble("player.penalty");
             if (per <= 1 || per > 0) {
                 bal = DeathPenalty.econ.getBalance(p);
                 this.am = bal * per;

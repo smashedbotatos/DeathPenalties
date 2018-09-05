@@ -1,8 +1,8 @@
 #Config for DeathPenalties
 Prefix: '&6&lDeathPenalties &b&l|'
 
-curency:
-  label: $
+currency:
+  label: '$'
 
 #Reward Config
 reward_enabled: true
